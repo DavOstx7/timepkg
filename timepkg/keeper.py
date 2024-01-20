@@ -24,11 +24,11 @@ class KeeperResult:
         return asdict(self)
 
 
-Function = TypeVar("Function", bound=Callable[Parameters, ReturnType])
-KeeperFunction = TypeVar("KeeperFunction", bound=Callable[Parameters, KeeperResult])
+Function = Callable[..., ReturnType]
+KeeperWrapper = Callable[..., KeeperResult]
 
 
-def timekeeper(function: Function) -> KeeperFunction:
+def timekeeper(function: Function) -> KeeperWrapper:
     @wraps(function)
     def wrapper(*args: Parameters.args, **kwargs: Parameters.kwargs) -> KeeperResult:
         start_time = time.perf_counter()
