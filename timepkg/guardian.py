@@ -1,8 +1,10 @@
 import time
 from functools import wraps
 from dataclasses import dataclass, astuple, asdict
-from typing import Callable, Optional
+from typing import Callable, Optional, Iterable
 from timepkg.keeper import KeeperResult, Function, Parameters
+
+NO_GUARDED_EXCEPTIONS = ()
 
 
 @dataclass
@@ -27,29 +29,27 @@ GuardianWrapper = Callable[..., GuardianResult]
 GuardianDecorator = Callable[[Function], GuardianWrapper]
 
 
-def guardian(catch_exceptions: bool = False, verbose: bool = False) -> GuardianDecorator:
+def guardian(save_metadata: bool = True, guarded_exceptions: Optional[Iterable[Exception]] = None) -> GuardianDecorator:
+    if not guarded_exceptions:
+        guarded_exceptions = NO_GUARDED_EXCEPTIONS
+
     def decorator(function: Function) -> GuardianWrapper:
         @wraps(function)
         def wrapper(*args: Parameters.args, **kwargs: Parameters.kwargs) -> GuardianResult:
-            start_time = time.perf_counter()
             return_value = None
             raised_exception = None
+            metadata = None
 
-            if catch_exceptions:
-                try:
-                    return_value = function(*args, **kwargs)
-                except Exception as exc:
-                    raised_exception = exc
-            else:
+            start_time = time.perf_counter()
+            try:
                 return_value = function(*args, **kwargs)
-
+            except (*guarded_exceptions,) as exc:
+                raised_exception = exc
             end_time = time.perf_counter()
             execution_time = end_time - start_time
 
-            if verbose:
+            if save_metadata:
                 metadata = GuardianMetadata(start_time=start_time, end_time=end_time, raised_exception=raised_exception)
-            else:
-                metadata = None
 
             return GuardianResult(return_value=return_value, execution_time=execution_time, metadata=metadata)
 
