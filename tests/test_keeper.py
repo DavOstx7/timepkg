@@ -1,7 +1,7 @@
 import time
 from tests.conftest import VALID_ERROR_MARGIN_TIME
 from timepkg.keeper import timekeeper, KeeperResult
-from timepkg.validation import valid_execution_time
+from timepkg.validation import valid_time_margin
 
 
 def test_result_creation(value_factory, positive_float_factory):
@@ -31,7 +31,7 @@ def test_parameterless_function(value_factory, testable_duration_factory):
     result = dummy_function()
 
     assert result.return_value == return_value
-    assert valid_execution_time(sleep_duration, result.execution_time, VALID_ERROR_MARGIN_TIME)
+    assert valid_time_margin(sleep_duration, result.execution_time, VALID_ERROR_MARGIN_TIME)
 
 
 def test_parameterized_function(testable_duration_factory):
@@ -47,4 +47,4 @@ def test_parameterized_function(testable_duration_factory):
     result = dummy_function(*_args, **_kwargs)
 
     assert result.return_value == (_args, _kwargs)
-    assert valid_execution_time(sleep_duration, result.execution_time, VALID_ERROR_MARGIN_TIME)
+    assert valid_time_margin(sleep_duration, result.execution_time, VALID_ERROR_MARGIN_TIME)
