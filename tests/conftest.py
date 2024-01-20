@@ -1,11 +1,10 @@
 import pytest
 import random
-from typing import Callable, Any
-
+from typing import Callable, Any, Type
 
 MIN_TESTABLE_DURATION = 0
 MAX_TESTABLE_DURATION = 0.5
-VALID_ERROR_MARGIN_TIME = 0.1
+VALID_EXECUTION_ERROR_MARGIN = 0.1
 
 
 @pytest.fixture
@@ -21,3 +20,8 @@ def positive_float_factory() -> Callable[..., float]:
 @pytest.fixture
 def testable_duration_factory() -> Callable[..., float]:
     return lambda: random.uniform(MIN_TESTABLE_DURATION, MAX_TESTABLE_DURATION)
+
+
+@pytest.fixture
+def exception_type_factory() -> Callable[..., Type[Exception]]:
+    return lambda: random.choice([ValueError, TypeError, SyntaxError, IndexError])
