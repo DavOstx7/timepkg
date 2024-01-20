@@ -11,6 +11,13 @@ def test_result_creation(random_value, random_positive_float):
     assert result.execution_time == random_positive_float
 
 
+def test_result_casting(random_value, random_positive_float):
+    result = KeeperResult(return_value=random_value, execution_time=random_positive_float)
+
+    assert (random_value, random_positive_float) == result.tuple()
+    assert {"return_value": random_value, "execution_time": random_positive_float} == result.dict()
+
+
 def test_parameterless_function(random_value, random_testable_duration):
     @timekeeper
     def dummy_function():

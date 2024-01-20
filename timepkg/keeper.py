@@ -1,6 +1,6 @@
 import time
 from functools import wraps
-from dataclasses import dataclass
+from dataclasses import dataclass, astuple, asdict
 from typing import TypeVar, Callable
 
 try:
@@ -16,6 +16,12 @@ ReturnType = TypeVar("ReturnType")
 class KeeperResult:
     return_value: ReturnType
     execution_time: float
+
+    def tuple(self) -> tuple:
+        return astuple(self)
+
+    def dict(self) -> dict:
+        return asdict(self)
 
 
 Function = TypeVar("Function", bound=Callable[Parameters, ReturnType])
