@@ -2,9 +2,10 @@
 name = "timepkg"
 version = "0.1.0"
 description = "Timing Utilities"
-authors = ["dav ost <private>"]
+authors = ["dav ost <davidost2003@gmail.com>"]
 license = "LICENSE"
 readme = "README.md"
+repository = "https://github.com/DavOstx7/timepkg.git"
 
 [tool.poetry.dependencies]
 python = "^3.6"
