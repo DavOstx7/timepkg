@@ -40,12 +40,12 @@ def guardian(save_metadata: bool = True, guarded_exceptions: Optional[Iterable[E
             raised_exception = None
             metadata = None
 
-            start_time = time.perf_counter()
+            start_time = time.time()
             try:
                 return_value = function(*args, **kwargs)
             except (*guarded_exceptions,) as exc:
                 raised_exception = exc
-            end_time = time.perf_counter()
+            end_time = time.time()
             execution_time = end_time - start_time
 
             if save_metadata:

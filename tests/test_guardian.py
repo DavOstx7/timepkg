@@ -43,20 +43,19 @@ def test_result_casting(value_factory, positive_float_factory):
 def test_saving_metadata(value_factory, testable_duration_factory):
     return_value, execution_time = value_factory(), testable_duration_factory()
 
-    start_time = time.perf_counter()
+    start_time = time.time()
 
     @guardian(save_metadata=True, guarded_exceptions=None)
     def dummy_function():
         time.sleep(execution_time)
         return return_value
 
-    end_time = time.perf_counter()
+    end_time = time.time()
 
     result = dummy_function()
 
     assert result.return_value == return_value
     assert valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
-
     assert valid_time_margin(start_time, result.metadata.start_time, VALID_TIMESTAMPING_ERROR_MARGIN)
     assert valid_time_margin(
         end_time, result.metadata.end_time, VALID_TIMESTAMPING_ERROR_MARGIN + FUNCTION_EXIT_OVERHEAD
