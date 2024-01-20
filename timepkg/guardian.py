@@ -12,7 +12,7 @@ class GuardianResult(KeeperResult):
     end_time: Optional[float]
 
 
-GuardianWrapper = Callable[Parameters, GuardianResult]
+GuardianWrapper = Callable[..., GuardianResult]
 GuardianDecorator = Callable[[Function], GuardianWrapper]
 
 

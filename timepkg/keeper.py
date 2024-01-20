@@ -24,8 +24,8 @@ class KeeperResult:
         return asdict(self)
 
 
-Function = Callable[Parameters, ReturnType]
-KeeperWrapper = Callable[Parameters, KeeperResult]
+Function = Callable[..., ReturnType]
+KeeperWrapper = Callable[..., KeeperResult]
 
 
 def timekeeper(function: Function) -> KeeperWrapper:
