@@ -1,15 +1,26 @@
 import time
 from functools import wraps
-from dataclasses import dataclass
+from dataclasses import dataclass, astuple, asdict
 from typing import Callable, Optional
 from timepkg.keeper import KeeperResult, Function, Parameters
 
 
 @dataclass
-class GuardianResult(KeeperResult):
+class GuardianMetadata:
+    start_time: float
+    end_time: float
     raised_exception: Optional[Exception]
-    start_time: Optional[float]
-    end_time: Optional[float]
+
+    def tuple(self) -> tuple:
+        return astuple(self)
+
+    def dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass
+class GuardianResult(KeeperResult):
+    metadata: Optional[GuardianMetadata]
 
 
 GuardianWrapper = Callable[..., GuardianResult]
@@ -35,15 +46,12 @@ def guardian(catch_exceptions: bool = False, verbose: bool = False) -> GuardianD
             end_time = time.perf_counter()
             execution_time = end_time - start_time
 
-            if not verbose:
-                start_time = None
-                end_time = None
+            if verbose:
+                metadata = GuardianMetadata(start_time=start_time, end_time=end_time, raised_exception=raised_exception)
+            else:
+                metadata = None
 
-            return GuardianResult(
-                return_value=return_value, execution_time=execution_time,
-                raised_exception=raised_exception,
-                start_time=start_time, end_time=end_time
-            )
+            return GuardianResult(return_value=return_value, execution_time=execution_time, metadata=metadata)
 
         return wrapper
 
