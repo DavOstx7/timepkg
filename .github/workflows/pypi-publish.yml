@@ -33,7 +33,7 @@ jobs:
       - name: Test Package
         run: |
           poetry install --with test
-          python -m pytest tests/
+          poetry run pytest tests/
       - name: Build Package
         run: poetry build
       - name: Publish Package
