@@ -26,16 +26,17 @@ def function():
 
 
 result = function()
-print(result)
+print(f"[1] {result}")
+
 return_value, execution_time = function()
-print(return_value, execution_time)
+print(f"[2] {return_value} {execution_time}")
 ```
 
 ```bash
 Hello World!
-KeeperResult(return_value='Goodbye!', execution_time=1.0127643000000002)
+[1] KeeperResult(return_value='Goodbye!', execution_time=1.0127643000000002)
 Hello World!
-Goodbye! 1.0116009
+[2] Goodbye! 1.0116009
 ```
 
 ### Guardian
@@ -54,15 +55,15 @@ def function():
 
 
 result = function()
-print(result)
+print(f"[1] {result}")
+
 return_value, execution_time, (start_time, end_time, raised_exception) = function()
-print(return_value, execution_time, start_time, end_time, raised_exception)
+print(f"[2] {return_value} {execution_time} {start_time} {end_time} {raised_exception}")
 ```
 
 ```bash
 Hello World!
-GuardianResult(return_value=None, execution_time=1.00541090965271, metadata=GuardianMetadata(start_time=1720282040.3592346, end_time=1720282041.3646455, raised_exception=ValueError('Error!',)))
+[1] GuardianResult(return_value=None, execution_time=1.00541090965271, metadata=GuardianMetadata(start_time=1720282040.3592346, end_time=1720282041.3646455, raised_exception=ValueError('Error!',)))
 Hello World!
-None 1.0010006427764893 1720282041.3646455 1720282042.3656461 Error!
+[2] None 1.0010006427764893 1720282041.3646455 1720282042.3656461 Error!
 ```
-
