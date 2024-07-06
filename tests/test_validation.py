@@ -1,17 +1,23 @@
+import pytest
+
 from timepkg.validation import is_valid_time_margin
 
 
-def test_valid_time_margin():
-    assert is_valid_time_margin(expected_time=10, actual_time=11, error_margin=2)
-    assert is_valid_time_margin(expected_time=10, actual_time=9, error_margin=2)
+@pytest.mark.parametrize("et, at,  em", [
+    (10, 11, 2),
+    (10, 9, 2),
+    (1, 1.1, 0.1),
+    (1, 0.9, 0.1),
+])
+def test_valid_time_margin(et, at, em):
+    assert is_valid_time_margin(expected_time=et, actual_time=at, error_margin=em)
 
-    assert is_valid_time_margin(expected_time=1, actual_time=1.1, error_margin=0.1)
-    assert is_valid_time_margin(expected_time=1, actual_time=0.9, error_margin=0.1)
 
-
-def test_invalid_time_margin():
-    assert not is_valid_time_margin(expected_time=10, actual_time=11, error_margin=0.5)
-    assert not is_valid_time_margin(expected_time=10, actual_time=9, error_margin=0.5)
-
-    assert not is_valid_time_margin(expected_time=1, actual_time=1.1, error_margin=0.09)
-    assert not is_valid_time_margin(expected_time=1, actual_time=0.9, error_margin=0.09)
+@pytest.mark.parametrize("et, at,  em", [
+    (10, 11, 0.5),
+    (10, 9, 0.5),
+    (1, 1.1, 0.09),
+    (1, 0.9, 0.09),
+])
+def test_invalid_time_margin(et, at, em):
+    assert not is_valid_time_margin(expected_time=et, actual_time=at, error_margin=em)
