@@ -20,6 +20,14 @@ def test_result_casting(value_factory, positive_float_factory):
     assert result.dict() == {"return_value": return_value, "execution_time": execution_time}
 
 
+def test_result_unpacking(value_factory, positive_float_factory):
+    re, et = value_factory(), positive_float_factory()
+    return_value, execution_time = KeeperResult(return_value=re, execution_time=et)
+
+    assert return_value == re
+    assert execution_time == et
+
+
 def test_parameterless_function(value_factory, testable_duration_factory):
     return_value, execution_time = value_factory(), testable_duration_factory()
 
