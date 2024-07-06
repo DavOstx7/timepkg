@@ -3,7 +3,7 @@ import pytest
 import time
 from tests.conftest import VALID_EXECUTION_ERROR_MARGIN, VALID_TIMESTAMPING_ERROR_MARGIN, FUNCTION_EXIT_OVERHEAD
 from timepkg.guardian import guardian, GuardianResult, GuardianMetadata
-from timepkg.validation import valid_time_margin
+from timepkg.validation import is_valid_time_margin
 
 
 def test_metadata_creation(positive_float_factory):
@@ -23,6 +23,15 @@ def test_metadata_casting(positive_float_factory):
     assert metadata.dict() == {"start_time": start_time, "end_time": end_time, "raised_exception": raised_exception}
 
 
+def test_metadata_unpacking(positive_float_factory):
+    st, et, re = positive_float_factory(), positive_float_factory(), None
+    start_time, end_time, raised_exception = GuardianMetadata(start_time=st, end_time=et, raised_exception=re)
+
+    assert start_time == st
+    assert end_time == et
+    assert raised_exception == re
+
+
 def test_result_creation(value_factory, positive_float_factory):
     return_value, execution_time, metadata = value_factory(), positive_float_factory(), None
     result = GuardianResult(return_value=return_value, execution_time=execution_time, metadata=metadata)
@@ -40,6 +49,15 @@ def test_result_casting(value_factory, positive_float_factory):
     assert result.dict() == {"return_value": return_value, "execution_time": execution_time, "metadata": metadata}
 
 
+def test_result_unpacking(value_factory, positive_float_factory):
+    rv, et, m = value_factory(), positive_float_factory(), None
+    return_value, execution_time, metadata = GuardianResult(return_value=rv, execution_time=et, metadata=m)
+
+    assert return_value == rv
+    assert execution_time == et
+    assert metadata == m
+
+
 def test_saving_metadata(value_factory, testable_duration_factory):
     return_value, execution_time = value_factory(), testable_duration_factory()
 
@@ -55,9 +73,9 @@ def test_saving_metadata(value_factory, testable_duration_factory):
     result = dummy_function()
 
     assert result.return_value == return_value
-    assert valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
-    assert valid_time_margin(start_time, result.metadata.start_time, VALID_TIMESTAMPING_ERROR_MARGIN)
-    assert valid_time_margin(
+    assert is_valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
+    assert is_valid_time_margin(start_time, result.metadata.start_time, VALID_TIMESTAMPING_ERROR_MARGIN)
+    assert is_valid_time_margin(
         end_time, result.metadata.end_time, VALID_TIMESTAMPING_ERROR_MARGIN + FUNCTION_EXIT_OVERHEAD
     )
     assert result.metadata.raised_exception is None
@@ -76,7 +94,7 @@ def test_not_saving_metadata(testable_duration_factory):
     result = dummy_function(*_args, **_kwargs)
 
     assert result.return_value == (_args, _kwargs)
-    assert valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
+    assert is_valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
     assert result.metadata is None
 
 

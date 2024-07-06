@@ -19,10 +19,19 @@ class GuardianMetadata:
     def dict(self) -> dict:
         return asdict(self)
 
+    def __iter__(self):
+        yield self.start_time
+        yield self.end_time
+        yield self.raised_exception
+
 
 @dataclass
 class GuardianResult(KeeperResult):
     metadata: Optional[GuardianMetadata]
+
+    def __iter__(self):
+        yield from super().__iter__()
+        yield self.metadata
 
 
 GuardianWrapper = Callable[..., GuardianResult]

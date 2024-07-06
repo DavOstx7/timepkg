@@ -23,6 +23,10 @@ class KeeperResult:
     def dict(self) -> dict:
         return asdict(self)
 
+    def __iter__(self):
+        yield self.return_value
+        yield self.execution_time
+
 
 Function = Callable[..., ReturnType]
 KeeperWrapper = Callable[..., KeeperResult]

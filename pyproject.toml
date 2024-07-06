@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "timepkg"
-version = "0.3.1"
+version = "0.3.2"
 description = "Timing Utilities"
 authors = ["dav ost <davidost2003@gmail.com>"]
 license = "LICENSE"
