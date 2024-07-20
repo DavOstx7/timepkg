@@ -13,7 +13,7 @@ pip install timepkg
 
 ### Timekeeper
 
-Timekeeper is a simple decorator. It uses a performance counter to measure execution time:
+Timekeeper is a simple decorator. It uses performance counter (high resolution clock) to measure execution time:
 
 ```python
 import time
@@ -41,8 +41,8 @@ print(f"[2] {return_value} | {execution_time}")
 
 ### Guardian
 
-Guardian is a decorator which extends the timekeeper functionality. It uses epoch timestamp to measure execution time
-and save metadata. It can also guard against specific exceptions, as its name indicates:
+Guardian is a decorator, which extends the functionality of Timekeeper. It uses epoch timestamps (system clock)
+to measure execution time and save metadata. It can also guard against specific exceptions and ensure graceful exit:
 
 ```python
 import time
