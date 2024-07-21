@@ -58,7 +58,7 @@ def test_result_unpacking(value_factory, positive_float_factory):
     assert metadata == m
 
 
-def test_saving_metadata(value_factory, testable_duration_factory):
+def test_guardian_save_metadata(value_factory, testable_duration_factory):
     return_value, execution_time = value_factory(), testable_duration_factory()
 
     start_time = time.time()
@@ -81,7 +81,7 @@ def test_saving_metadata(value_factory, testable_duration_factory):
     assert result.metadata.raised_exception is None
 
 
-def test_not_saving_metadata(testable_duration_factory):
+def test_guardian_not_save_metadata(testable_duration_factory):
     execution_time = testable_duration_factory()
     _args = (1, 2, 3)
     _kwargs = {"d": 4, "e": 5, "f": 6}
@@ -98,7 +98,7 @@ def test_not_saving_metadata(testable_duration_factory):
     assert result.metadata is None
 
 
-def test_raising_exception_with_exception_guard(exception_type_factory):
+def test_guardian_guard_exception(exception_type_factory):
     exception_type = exception_type_factory()
     exception_object = exception_type()
 
@@ -110,7 +110,7 @@ def test_raising_exception_with_exception_guard(exception_type_factory):
     assert exception_object == result.metadata.raised_exception
 
 
-def test_raising_exception_with_wrong_exception_guard(exception_type_factory):
+def test_guardian_guard_wrong_exception(exception_type_factory):
     exception_type = exception_type_factory()
 
     class DummyError(Exception):
@@ -124,7 +124,7 @@ def test_raising_exception_with_wrong_exception_guard(exception_type_factory):
         dummy_function()
 
 
-def test_raising_exception_without_exception_guard(exception_type_factory):
+def test_guardian_not_guard_exception(exception_type_factory):
     exception_type = exception_type_factory()
     exception_object = exception_type()
 

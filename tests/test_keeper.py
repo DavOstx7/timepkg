@@ -28,7 +28,7 @@ def test_result_unpacking(value_factory, positive_float_factory):
     assert execution_time == et
 
 
-def test_parameterless_function(value_factory, testable_duration_factory):
+def test_timekeeper_on_parameterless_function(value_factory, testable_duration_factory):
     return_value, execution_time = value_factory(), testable_duration_factory()
 
     @timekeeper
@@ -42,7 +42,7 @@ def test_parameterless_function(value_factory, testable_duration_factory):
     assert is_valid_time_margin(execution_time, result.execution_time, VALID_EXECUTION_ERROR_MARGIN)
 
 
-def test_parameterized_function(testable_duration_factory):
+def test_timekeeper_on_parameterized_function(testable_duration_factory):
     execution_time = testable_duration_factory()
     _args = (1, 2, 3)
     _kwargs = {"d": 4, "e": 5, "f": 6}
