@@ -28,15 +28,15 @@ def function():
 
 
 result = function()
-print(f"[1] {result}")
+print(f"1) {result}")
 
 return_value, execution_time = function()
-print(f"[2] {return_value} | {execution_time}")
+print(f"2) [{return_value}, {execution_time}]")
 ```
 
 ```bash
-1) KeeperResult(return_value='Goodbye', execution_time=1.005703)
-2) ['Goodbye', 1.0020389]
+1) KeeperResult(return_value='Goodbye', execution_time=1.0078486000000002)
+2) ['Goodbye', 1.0087065000000002]
 ```
 
 ### Guardian
@@ -64,6 +64,6 @@ print(f"2) {[return_value, execution_time, start_time, end_time, raised_exceptio
 ```
 
 ```bash
-1) GuardianResult(return_value=None, execution_time=1.0147862434387207, metadata=GuardianMetadata(start_time=1721496420.3128269, end_time=1721496421.327613, raised_exception=ValueError('Error!',)))
-2) [None, 1.012328863143921, 1721496421.327613, 1721496422.339942, ValueError('Error!',)]
+1) GuardianResult(return_value=None, execution_time=1.0060713291168213, metadata=GuardianMetadata(start_time=1721595459.6064517, end_time=1721595460.612523, raised_exception=ValueError('Error!',)))
+2) [None, 1.0149073600769043, 1721595460.612523, 1721595461.6274304, ValueError('Error!',)]
 ```
