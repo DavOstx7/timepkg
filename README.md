@@ -31,7 +31,7 @@ result = function()
 print(f"1) {result}")
 
 return_value, execution_time = function()
-print(f"2) [{return_value}, {execution_time}]")
+print(f"2) {[return_value, execution_time]}")
 ```
 
 ```bash
